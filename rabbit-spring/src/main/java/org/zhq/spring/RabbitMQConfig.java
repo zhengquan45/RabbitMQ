@@ -6,11 +6,15 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.zhq.spring.adapter.MessageDelegate;
+import org.zhq.spring.converter.TextMessageConverter;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 @Configuration
@@ -88,9 +92,24 @@ public class RabbitMQConfig {
         simpleMessageListenerContainer.setDefaultRequeueRejected(false);
         simpleMessageListenerContainer.setAcknowledgeMode(AcknowledgeMode.AUTO);
         simpleMessageListenerContainer.setConsumerTagStrategy(queue -> queue + "-" + UUID.randomUUID().toString());
-        simpleMessageListenerContainer.setMessageListener((ChannelAwareMessageListener) (message, channel) -> {
-            System.out.println("consumer:" + new String(message.getBody()));
-        });
+//        simpleMessageListenerContainer.setMessageListener((ChannelAwareMessageListener) (message, channel) -> {
+//            System.out.println("consumer:" + new String(message.getBody()));
+//        });
+        //适配器
+        //可以指定默认的监听方法
+        //可以指定转换器
+//        MessageListenerAdapter adapter = new MessageListenerAdapter(new MessageDelegate());
+//        adapter.setDefaultListenerMethod("consumeMessage");
+//        adapter.setMessageConverter(new TextMessageConverter());
+//        simpleMessageListenerContainer.setMessageListener(adapter);
+        MessageListenerAdapter adapter = new MessageListenerAdapter(new MessageDelegate());
+        HashMap<String, String> queueOrTagToMethodName = new HashMap<>();
+        queueOrTagToMethodName.put("queue01","method1");
+        queueOrTagToMethodName.put("queue02","method2");
+        adapter.setQueueOrTagToMethodName(queueOrTagToMethodName);
+//        adapter.setMessageConverter(new TextMessageConverter());
+        simpleMessageListenerContainer.setMessageListener(adapter);
+
         return simpleMessageListenerContainer;
     }
 }

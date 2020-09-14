@@ -52,10 +52,16 @@ class RabbitSpringApplicationTests {
     @Test
     public void sendMessageTest() {
         MessageProperties messageProperties = new MessageProperties();
+        messageProperties.setContentType("text/plain");
         messageProperties.getHeaders().put("desc", "this is a description");
         messageProperties.getHeaders().put("type", "this is a custom type");
         Message message = new Message("this is a text".getBytes(), messageProperties);
         rabbitTemplate.convertAndSend("exchange01","spring.add",message, msg -> {
+            msg.getMessageProperties().getHeaders().put("extend","this is a extend");
+            return msg;
+        });
+        Message message2 = new Message("this is a test queue02 to method2".getBytes(), messageProperties);
+        rabbitTemplate.convertAndSend("exchange02","rabbit.add",message2, msg -> {
             msg.getMessageProperties().getHeaders().put("extend","this is a extend");
             return msg;
         });
