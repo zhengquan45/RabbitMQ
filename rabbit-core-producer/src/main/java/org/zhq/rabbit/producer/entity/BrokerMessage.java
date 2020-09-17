@@ -1,7 +1,9 @@
 package org.zhq.rabbit.producer.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
 import org.zhq.rabbit.api.Message;
 
@@ -14,6 +16,7 @@ import java.util.Date;
 public class BrokerMessage implements Serializable {
     @TableId
     private String messageId;
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Message message;
     private Integer tryCount = 0;
     private String status;

@@ -1,0 +1,7 @@
+spring:
+  rabbitmq:
+    publisher-confirm-type: correlated
+    publisher-returns: true
+#    由于rabbitTemplate池化为rabbitTemplateContainer 下面属性无法生效
+#    template:
+#      mandatory: false

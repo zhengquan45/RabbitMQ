@@ -2,6 +2,7 @@ package org.zhq.rabbit.producer.broker;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.zhq.rabbit.api.Message;
@@ -67,13 +68,15 @@ public class RabbitBrokerImpl implements RabbitBroker {
     private void sendKernel(Message message) {
         AsyncBaseQueue.submit(() -> {
             CorrelationData correlationData =
-                    new CorrelationData(String.format("%s#%s",
+                    new CorrelationData(String.format("%s#%s#%s",
                             message.getMessageId(),
-                            System.currentTimeMillis()));
+                            System.currentTimeMillis(),
+                            message.getMessageType()));
             String routingKey = message.getRoutingKey();
             String topic = message.getTopic();
-            rabbitTemplateContainer.getTemplate(message).convertAndSend(topic, routingKey, message, correlationData);
-            log.info("#RabbitBrokerImpl.sendKernel#send to rabbitmq,messageId:{}", message.getMessageId());
+            RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getTemplate(message);
+            rabbitTemplate.convertAndSend(topic, routingKey, message, correlationData);
+            log.info("#RabbitBrokerImpl.sendKernel#send to rabbitmq,messageId:{},messageType:{}", message.getMessageId(),message.getMessageType());
         });
     }
 }
