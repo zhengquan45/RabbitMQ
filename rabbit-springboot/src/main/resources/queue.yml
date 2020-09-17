@@ -1,0 +1,11 @@
+springboot:
+  rabbit:
+    queue:
+      name: queue-01
+      durable: true
+    exchange:
+      name: exchange-01
+      durable: true
+      type: topic
+      ignoreDeclarationExceptions: true
+    routingKey: springboot.*
