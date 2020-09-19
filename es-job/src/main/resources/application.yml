@@ -23,3 +23,7 @@ simpleJob:
   monitorPort: 8889
   maxTimeDiffSeconds: -1
   jobShardingStrategyClass: com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy
+dataflowJob :
+  cron: 0/10 * * * * ?
+  shardingTotalCount: 2
+  shardingItemParameters: 0=beijing,1=shanghai

@@ -1,4 +1,4 @@
-package org.zhq.esjob.config;
+package org.zhq.esjob.task;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;

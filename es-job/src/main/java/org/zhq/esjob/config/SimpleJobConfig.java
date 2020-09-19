@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.zhq.esjob.listener.SimpleJobListener;
+import org.zhq.esjob.task.MySimpleJob;
 
 @Configuration
 public class SimpleJobConfig {
@@ -69,7 +71,7 @@ public class SimpleJobConfig {
                 .monitorExecution(monitorExecution)
                 .monitorPort(monitorPort)
                 .maxTimeDiffSeconds(maxTimeDiffSeconds)
-                .overwrite(true)
+                .overwrite(false)
                 .build();
         return liteJobConfiguration;
     }

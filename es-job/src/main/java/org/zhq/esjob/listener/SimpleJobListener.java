@@ -1,5 +1,4 @@
-package org.zhq.esjob.config;
-
+package org.zhq.esjob.listener;
 import com.dangdang.ddframe.job.executor.ShardingContexts;
 import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 
