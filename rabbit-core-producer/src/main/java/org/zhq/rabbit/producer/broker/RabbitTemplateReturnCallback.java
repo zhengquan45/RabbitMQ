@@ -13,11 +13,10 @@ import org.zhq.rabbit.producer.service.MessageStoreService;
 import java.io.IOException;
 
 @Slf4j
-@Component
 public class RabbitTemplateReturnCallback implements RabbitTemplate.ReturnCallback {
     private final MessageStoreService messageStoreService;
     private final ObjectMapper objectMapper;
-    @Autowired
+
     public RabbitTemplateReturnCallback(MessageStoreService messageStoreService, ObjectMapper objectMapper) {
         this.messageStoreService = messageStoreService;
         this.objectMapper = objectMapper;
@@ -26,7 +25,6 @@ public class RabbitTemplateReturnCallback implements RabbitTemplate.ReturnCallba
 
     @Override
     public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-        log.error("");
         byte[] body = message.getBody();
         org.zhq.rabbit.api.Message msg = null;
         try {

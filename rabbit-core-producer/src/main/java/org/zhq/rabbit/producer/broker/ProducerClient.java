@@ -11,11 +11,9 @@ import org.zhq.rabbit.api.exception.MessageRuntimeException;
 
 import java.util.List;
 
-@Component
 public class ProducerClient implements MessageProducer {
     private final RabbitBroker rabbitBroker;
 
-    @Autowired
     public ProducerClient(RabbitBroker rabbitBroker) {
         this.rabbitBroker = rabbitBroker;
     }

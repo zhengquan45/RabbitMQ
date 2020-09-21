@@ -20,12 +20,10 @@ import java.time.LocalDateTime;
  * 2、可以根据不同的需求指定不同的rabbitTemplate 每一个topic都有自己的routingKey规则
  */
 @Slf4j
-@Component
 public class RabbitBrokerImpl implements RabbitBroker {
     private final RabbitTemplateContainer rabbitTemplateContainer;
     private final MessageStoreService storeService;
 
-    @Autowired
     public RabbitBrokerImpl(RabbitTemplateContainer rabbitTemplateContainer, MessageStoreService storeService) {
         this.rabbitTemplateContainer = rabbitTemplateContainer;
         this.storeService = storeService;

@@ -12,11 +12,9 @@ import org.zhq.rabbit.producer.service.MessageStoreService;
 import java.util.List;
 
 @Slf4j
-@Component
 public class RabbitTemplateConfirmCallback implements RabbitTemplate.ConfirmCallback {
     private final MessageStoreService messageStoreService;
     private final Splitter splitter = Splitter.on("#");
-    @Autowired
     public RabbitTemplateConfirmCallback(MessageStoreService messageStoreService) {
         this.messageStoreService = messageStoreService;
     }
@@ -29,7 +27,6 @@ public class RabbitTemplateConfirmCallback implements RabbitTemplate.ConfirmCall
         String messageType = strings.get(2);
         if(ack) {
             //	当Broker 返回ACK成功时, 就是更新一下日志表里对应的消息发送状态为 SEND_OK
-
             // 	如果当前消息类型为reliant 我们就去数据库查找并进行更新
             if(MessageType.RELIANT.endsWith(messageType)) {
                 this.messageStoreService.success(messageId);

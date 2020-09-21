@@ -14,14 +14,12 @@ import javax.sql.DataSource;
 
 @Configuration
 public class BrokerMessageConfiguration {
-    @Autowired
-    private DataSource rabbitProducerDataSource;
 
     @Value("classpath:rabbit-producer-message-schema.sql")
     private Resource schemaScript;
 
     @Bean
-    public DataSourceInitializer dataSourceInitializer(){
+    public DataSourceInitializer dataSourceInitializer(DataSource rabbitProducerDataSource){
         DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(rabbitProducerDataSource);
         initializer.setDatabasePopulator(databasePopulator());

@@ -5,3 +5,6 @@ spring:
 #    由于rabbitTemplate池化为rabbitTemplateContainer 下面属性无法生效
 #    template:
 #      mandatory: false
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

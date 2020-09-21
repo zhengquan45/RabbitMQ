@@ -20,19 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Component
 public class RabbitTemplateContainer {
 
     private final Map<String, RabbitTemplate> rabbitTemplateMap;
     private final ConnectionFactory connectionFactory;
     private final RabbitTemplateConfirmCallback confirmCallback;
-    private final RabbitTemplateReturnCallback returnCallback;
     private SerializerFactory serializerFactory = JsonSerializeFactory.INSTANCE;
 
-    @Autowired
-    public RabbitTemplateContainer(ConnectionFactory connectionFactory, RabbitTemplateConfirmCallback confirmCallback, RabbitTemplateReturnCallback returnCallback) {
+    public RabbitTemplateContainer(ConnectionFactory connectionFactory, RabbitTemplateConfirmCallback confirmCallback) {
         this.confirmCallback = confirmCallback;
-        this.returnCallback = returnCallback;
         this.rabbitTemplateMap = new HashMap<>();
         this.connectionFactory = connectionFactory;
     }
@@ -54,7 +50,6 @@ public class RabbitTemplateContainer {
             rabbitTemplate.setMessageConverter(rmc);
             if (!message.getMessageType().equals(MessageType.RAPID)) {
                 rabbitTemplate.setConfirmCallback(confirmCallback);
-                rabbitTemplate.setReturnCallback(returnCallback);
                 //rabbitTemplate这里不是用@Bean导入而是使用new的方式在Component中做池化 导致spring.rabbit.template.mandatory=true无效
                 rabbitTemplate.setMandatory(true);
             }
