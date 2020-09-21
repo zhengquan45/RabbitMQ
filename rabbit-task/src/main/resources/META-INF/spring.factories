@@ -1,0 +1,3 @@
+ # auto configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.zhq.rabbit.task.autoconfigure.JobParserAutoConfiguration
