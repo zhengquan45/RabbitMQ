@@ -1,5 +1,6 @@
 package org.zhq;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -9,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zhq.rabbit.api.Message;
 import org.zhq.rabbit.api.MessageType;
 import org.zhq.rabbit.producer.broker.ProducerClient;
+import org.zhq.rabbit.task.annotation.EnableElasticJob;
 
 import java.util.UUID;
 
+@EnableElasticJob
 @SpringBootApplication
 @RestController
 @Slf4j
@@ -29,7 +32,7 @@ public class SampleApplication {
 
     @GetMapping("/rapidSend")
     public void rapidSend() {
-        Message message = Message.builder().messageId(UUID.randomUUID().toString())
+        Message message = Message.builder().messageId(IdWorker.getIdStr())
                 .messageType(MessageType.RAPID)
                 .topic("rapid-exchange")
                 .routingKey("rapid.add")
@@ -39,10 +42,10 @@ public class SampleApplication {
 
     @GetMapping("/confirmSend")
     public void confirmSend() {
-        Message message = Message.builder().messageId(UUID.randomUUID().toString())
+        Message message = Message.builder().messageId(IdWorker.getIdStr())
                 .messageType(MessageType.CONFIRM)
                 .topic("confirm-exchange")
-                .routingKey("confirm.111")
+                .routingKey("confirm.add")
                 .build();
         producerClient.send(message);
     }
@@ -50,10 +53,10 @@ public class SampleApplication {
 
     @GetMapping("/reliantSend")
     public void reliantSend() {
-        Message message = Message.builder().messageId(UUID.randomUUID().toString())
+        Message message = Message.builder().messageId(IdWorker.getIdStr())
                 .messageType(MessageType.RELIANT)
                 .topic("reliant-exchange")
-                .routingKey("reliant.bbbb")
+                .routingKey("reliant.add")
                 .build();
         producerClient.send(message);
     }
